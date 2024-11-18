@@ -1,0 +1,47 @@
+<?php
+/*
+Template Name: Page de Redirection
+*/
+get_header(); // Inclut l'en-tête WordPress standard
+?>
+
+<script>
+    // Liste des URLs et leurs probabilités associées (en pourcentage)
+    const urls = [
+        { url: "https://g.co/kgs/Yz8c9hp", weight: 15 },
+        { url: "https://www.camping-mesqueau.com/camping-cote-de-granit-rose.html", weight: 25 },
+        { url: "https://www.camping-mesqueau.com/camping-morlaix.html", weight: 15 },
+        { url: "https://www.camping-mesqueau.com/camping-roscoff.html", weight: 15 },
+        { url: "https://www.camping-mesqueau.com/camping-baie-de-morlaix.html", weight: 15 },
+        { url: "https://www.camping-mesqueau.com/camping-finistere.html", weight: 15 }
+    ];
+
+    // Fonction pour sélectionner une URL basée sur les probabilités
+    function selectUrl(urls) {
+        const totalWeight = urls.reduce((sum, item) => sum + item.weight, 0);
+        const random = Math.random() * totalWeight;
+        let cumulativeWeight = 0;
+
+        for (let item of urls) {
+            cumulativeWeight += item.weight;
+            if (random < cumulativeWeight) {
+                return item.url;
+            }
+        }
+    }
+
+    // Redirection automatique
+    const selectedUrl = selectUrl(urls);
+    window.location.href = selectedUrl;
+</script>
+
+<p>Vous allez être redirigé... Si cela prend trop de temps, cliquez <a id="manual-link" href="#">ici</a>.</p>
+
+<script>
+    // Met à jour le lien manuel avec l'URL sélectionnée
+    document.getElementById("manual-link").href = selectedUrl;
+</script>
+
+<?php
+get_footer(); // Inclut le pied de page WordPress standard
+?>
